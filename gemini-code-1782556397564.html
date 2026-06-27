@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Kiểm Tra Tương Tác - Ms Lê Hằng English</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Quicksand:wght=500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #8854C0;
+            --secondary-color: #FDCB6E;
+            --accent-color: #00C9A7;
+            --correct-color: #00D26A;
+            --wrong-color: #FF4757;
+            --text-dark: #2D3436;
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', 'Nunito', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #8854C0, #FDCB6E, #00C9A7, #FF7675);
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+            position: relative;
+            padding: 20px 10px;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            opacity: 0.18;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M12 12l2 2-2 2-2-2zm20 8c2 0 3-1 3-3s-1-3-3-3-3 1-3 3 1 3 3 3zm15 5l2 3 3 2-3 2-2 3-2-3-3-2 3-2zm-6 20c1.5 0 2.5-1 2.5-2.5S32.5 30 31 30s-2.5 1-2.5 2.5 1 2.5 2.5 2.5zM10 45l2 2-2 2-2-2z'/%3E%3Ccircle cx='50' cy='10' r='2'/%3E%3Ccircle cx='10' cy='50' r='3'/%3E%3C/g%3E%3C/svg%3E");
+            animation: floatingPattern 25s linear infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes floatingPattern {
+            from { background-position: 0 0; }
+            to { background-position: 600px 600px; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 0 rgba(0,0,0,0.1);
+        }
+
+        header h2 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .alert-box {
+            background: #FFEAA7;
+            border: 3px solid #FDCB6E;
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 0 #E17055;
+            text-align: center;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        .alert-title {
+            color: #D63031;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 900;
+        }
+
+        .section-title {
+            background: #FF7675;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 15px;
+            margin: 25px 0 12px 0;
+            display: inline-block;
+            font-weight: 900;
+            box-shadow: 0 4px 0 #D63031;
+            font-size: 1.1rem;
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            border-radius: 22px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 0 rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 15px;
+            padding: 12px 18px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 4px 0 #E2E8F0;
+            transition: transform 0.1s ease, background-color 0.2s ease;
+        }
+
+        .option-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #CBD5E1;
+            background-color: #F8FAFC;
+        }
+
+        .option-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #CBD5E1;
+        }
+
+        .option-btn.correct {
+            background-color: var(--correct-color) !important;
+            color: white !important;
+            border-color: #00B359 !important;
+            box-shadow: 0 4px 0 #00803F !important;
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-color) !important;
+            color: white !important;
+            border-color: #E11D48 !important;
+            box-shadow: 0 4px 0 #9F1239 !important;
+        }
+
+        .option-btn.disabled {
+            pointer-events: none;
+        }
+
+        .explanation-box {
+            margin-top: 15px;
+            background: #F8FAFC;
+            border-left: 6px solid var(--primary-color);
+            border-radius: 0 15px 15px 0;
+            padding: 15px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            display: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .explanation-box.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .exp-section {
+            margin-bottom: 8px;
+        }
+
+        .exp-title {
+            font-weight: 700;
+            color: #1E293B;
+            border-bottom: 1px dashed #CBD5E1;
+            padding-bottom: 2px;
+            margin-bottom: 4px;
+        }
+
+        .exp-highlight {
+            color: #2563EB;
+            font-weight: 700;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+        .shake { animation: shake 0.4s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .submit-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .btn-submit {
+            background: #FF7675;
+            color: white;
+            border: none;
+            padding: 14px 45px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #D63031;
+            transition: all 0.1s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #D63031;
+        }
+
+        .btn-submit:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #D63031;
+        }
+
+        .result-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+
+        .result-content {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 460px;
+            width: 90%;
+            text-align: center;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+        }
+
+        .result-score {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+        }
+
+        .result-comment {
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .btn-close-result {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #00A387;
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <h2>Giáo viên tạo: Ms Lê Hằng English</h2>
+        </header>
+
+        <div class="alert-box">
+            <span class="alert-title">⚠️ LỜI NHẮC CỰC KỲ QUAN TRỌNG ⚠️</span>
+            Chỉ có đọc kỹ giải thích ngay sau mỗi câu, sau đó ghi lại từ vựng/cấu trúc mới vào vở để học thì mới thực sự giỏi lên.<br>
+            Làm cho xong mà không đọc giải thích hay đọc qua loa không ghi chép thì chỉ tốn thời gian vô ích!<br>
+            <span style="color: #00C9A7; display:block; margin-top:5px;">* Kéo tới đâu, làm tới đó! *</span>
+        </div>
+
+        <div id="quiz-container">
+            <!-- Dữ liệu được tải tự động qua kịch bản JavaScript -->
+        </div>
+
+        <div class="submit-container">
+            <button type="button" class="btn-submit" onclick="gradeEntireQuiz()">NỘP BÀI</button>
+        </div>
+    </div>
+
+    <div class="result-overlay" id="result-modal">
+        <div class="result-content">
+            <div class="result-score" id="score-text">0/0</div>
+            <div class="result-comment" id="comment-text"></div>
+            <button class="btn-close-result" onclick="closeResultModal()">Xem lại bài học</button>
+        </div>
+    </div>
+
+    <script>
+        // --- WEB AUDIO API FOR TACTILE SOUNDS ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            } else {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.2);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.25);
+            }
+        }
+
+        // --- HỆ THỐNG CƠ SỞ DỮ LIỆU ĐỀ BÀI HOÀN CHỈNH ---
+        const quizData = [
+            // EXERCISE 10
+            {
+                id: 1,
+                section: "Exercise 10: Best completes each of the following exchanges.",
+                question: "- Ellie: “How was your science project presentation, Gwen?”<br>- Gwen: “____________________”",
+                options: [
+                    { text: "A. Yes, we had a science project presentation.", isCorrect: false },
+                    { text: "B. I’m not satisfied with your science presentation.", isCorrect: false },
+                    { text: "C. Thanks for your helping with the presentation.", isCorrect: false },
+                    { text: "D. It went great! I got the highest score in the class.", isCorrect: true }
+                ],
+                explanation: {
+                    translation: "Ellie: \"Bài thuyết trình dự án khoa học của cậu thế nào rồi, Gwen?\" - Gwen: \"Nó diễn ra tuyệt lắm! Tớ đạt điểm cao nhất lớp luôn đấy.\"",
+                    options: "A. Ừ, chúng tớ có bài thuyết trình; B. Tớ không hài lòng với bài thuyết trình của bạn; C. Cảm ơn vì sự giúp đỡ của bạn; D. Nó diễn ra rất tốt và đạt điểm cao nhất.",
+                    reason: "Ellie hỏi bằng từ để hỏi 'How' (như thế nào) về một trải nghiệm sự việc trong quá khứ. Câu trả lời D phản hồi trực tiếp trạng thái chất lượng ('It went great!') và bổ sung kết quả chứng minh xuất sắc.",
+                    wrongReason: "A trả lời Yes/No cho câu hỏi Wh-; B sai ngôi giao tiếp đối thoại; C lạc hướng cảm ơn không tương thích câu hỏi."
+                }
+            },
+            {
+                id: 2,
+                section: "Exercise 10: Best completes each of the following exchanges.",
+                question: "- Nick: I’m very sorry. I didn’t know this is your seat.<br>- Mi: “____________________”",
+                options: [
+                    { text: "A. That’s very careless of you.", isCorrect: false },
+                    { text: "B. Can you give it back to me as soon as possible?", isCorrect: false },
+                    { text: "C. That’s okay. I’ll sit in another one.", isCorrect: true },
+                    { text: "D. That’s alright. You can go now.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Nick: \"Tớ rất xin lỗi. Tớ không biết đây là chỗ ngồi của cậu.\" - Mi: \"Không sao đâu mà. Tớ sẽ ngồi ở một chỗ khác.\"",
+                    options: "A. Bạn thật cẩu thả; B. Trả lại cho tớ càng sớm càng tốt; C. Không sao, tớ ngồi chỗ khác; D. Được rồi, bạn có thể đi đi.",
+                    reason: "Khi đối phương đưa ra lời xin lỗi lịch sự về sự nhầm lẫn vô ý ('didn't know'), phản xạ giao tiếp lịch sự, bao dung và tạo thiện cảm nhất là chấp nhận lời xin lỗi 'That's okay' kết hợp đưa ra giải pháp nhẹ nhàng.",
+                    wrongReason: "A và B quá thô lỗ, gay gắt không cần thiết; D mang sắc thái bề trên, đuổi người khác đi."
+                }
+            },
+            {
+                id: 3,
+                section: "Exercise 10: Best completes each of the following exchanges.",
+                question: "- Oliver: “What extracurricular activities are you involved in?”<br>- James: “____________________”",
+                options: [
+                    { text: "A. I’m not a morning person.", isCorrect: false },
+                    { text: "B. History is my favourite subject.", isCorrect: false },
+                    { text: "C. I like to hang out with friends after school.", isCorrect: true },
+                    { text: "D. I usually get good grades in English.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Oliver: \"Cậu tham gia vào những hoạt động ngoại khóa nào vậy?\" - James: \"Tớ thích đi chơi, tụ tập với bạn bè sau giờ học.\"",
+                    options: "A. Tớ không phải người dậy sớm; B. Lịch sử là môn học yêu thích; C. Tớ thích đi chơi với bạn bè sau giờ học; D. Tớ thường đạt điểm cao môn Tiếng Anh.",
+                    reason: "Từ khóa hỏi về 'extracurricular activities' (các hoạt động ngoại khóa, hoạt động ngoài giờ lên lớp học). Việc đi chơi, giao lưu gắn kết bạn bè sau giờ học ('hang out with friends after school') chính là hoạt động ngoại khóa thực tế.",
+                    wrongReason: "A nói về thói quen sinh học; B và D nói về các môn học chính khóa và điểm số học thuật trên lớp."
+                }
+            },
+            {
+                id: 4,
+                section: "Exercise 10: Best completes each of the following exchanges.",
+                question: "- Lucas: “Can you help me study for the biology exam?”<br>- Henry: “____________________”",
+                options: [
+                    { text: "A. That sounds like a fun movie.", isCorrect: false },
+                    { text: "B. Sure, I can explain this concept to you.", isCorrect: true },
+                    { text: "C. Let’s meet at the library tomorrow.", isCorrect: false },
+                    { text: "D. Not at all. Don’t mention it.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Lucas: \"Cậu có thể giúp tớ học bài để chuẩn bị cho kỳ thi sinh học không?\" - Henry: \"Chắc chắn rồi, tớ có thể giải thích khái niệm này cho cậu.\"",
+                    options: "A. Nghe có vẻ giống một bộ phim vui; B. Chắc chắn rồi, tớ sẽ giải thích khái niệm này; C. Hãy gặp ở thư viện ngày mai; D. Không có gì, đừng nhắc đến.",
+                    reason: "Lucas đưa ra lời yêu cầu giúp đỡ ('Can you help me...?'). Lời đồng ý giúp đỡ trực tiếp, rõ ràng và thiết thực nhất là dùng phó từ khẳng định 'Sure' đi kèm hành động cụ thể: 'Sure, I can explain this concept to you'. (Lưu ý: C cũng là lời hẹn tốt nhưng B trực diện phản hồi năng lực đồng ý giúp hơn).",
+                    wrongReason: "A lạc đề phim ảnh; D dùng để đáp lại lời cảm ơn hoặc xin lỗi chứ không dùng để nhận lời giúp đỡ."
+                }
+            },
+            {
+                id: 5,
+                section: "Exercise 10: Best completes each of the following exchanges.",
+                question: "- Minh: “____________________”<br>- Teacher: That’s okay, Minh. Remember to finish it and send it to me soon.",
+                options: [
+                    { text: "A. I’m sorry for not finishing homework, Miss Lan.", isCorrect: true },
+                    { text: "B. I’m sorry for my finishing homework, Miss Lan.", isCorrect: false },
+                    { text: "C. I’m sorry for having sent you the homework, Miss Lan.", isCorrect: false },
+                    { text: "D. I apologise for leaving my textbook home, Miss Lan.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Minh: \"Em xin lỗi vì chưa hoàn thành bài tập về nhà, thưa cô Lan.\" - Giáo viên: \"Không sao đâu Minh. Nhớ hoàn thành và gửi lại cho cô sớm nhé.\"",
+                    options: "A. Xin lỗi vì không hoàn thành bài tập; B. Xin lỗi vì hoàn thành bài tập (sai ngữ pháp cấu trúc từ ngữ); C. Xin lỗi vì đã gửi bài tập; D. Xin lỗi vì quên sách ở nhà.",
+                    reason: "Lời căn dặn của giáo viên ở vế sau chứa từ khóa cốt lõi: 'Remember to finish it and send it to me soon' (Nhớ hoàn thành và gửi nó cho cô sớm nhé). Điều này ngầm ý lỗi của Minh là chưa làm xong bài tập -> Chọn phương án A 'not finishing homework'.",
+                    wrongReason: "B và C sai nghĩa hoàn toàn; D nói về quên sách giáo khoa không khớp với hành động gửi bài ('send it') của giáo viên."
+                }
+            },
+            {
+                id: 6,
+                section: "Exercise 10: Best completes each of the following exchanges.",
+                question: "- Tom: We apologies for the late delivery, Sir.<br>- Customer: “____________________”",
+                options: [
+                    { text: "A. Oh, that’s alright. Will you give us a discount as a compensation?", isCorrect: true },
+                    { text: "B. I’d love to. But send it to us on another occasion.", isCorrect: false },
+                    { text: "C. Your mistake. I won’t do it again.", isCorrect: false },
+                    { text: "D. I’m sorry. We won’t do it any more.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Tom: \"Chúng tôi xin lỗi vì sự giao hàng trễ hẹn, thưa ông.\" - Khách hàng: \"Ồ, không sao đâu. Bên bạn có giảm giá cho chúng tôi coi như một khoản bồi thường không?\"",
+                    options: "A. Ồ không sao, có được giảm giá bồi thường không; B. Tớ rất thích nhưng hãy gửi dịp khác; C. Lỗi của bạn, tớ sẽ không làm vậy nữa; D. Tớ xin lỗi, chúng tớ sẽ không làm vậy nữa.",
+                    reason: "Tom đại diện công ty xin lỗi khách hàng về dịch vụ giao hàng chậm ('late delivery'). Khách hàng chấp nhận lịch sự 'Oh, that’s alright' và đưa ra câu hỏi thực tế về quyền lợi bồi thường thương mại ('discount as a compensation') hoàn toàn hợp logic.",
+                    wrongReason: "B dùng trả lời lời mời; C và D chia sai ngôi giao tiếp trầm trọng (khách hàng không phải người gây ra lỗi để hứa 'I won't do it again')."
+                }
+            },
+            {
+                id: 7,
+                section: "Exercise 10: Best completes each of the following exchanges.",
+                question: "- Ava: “Do you prefer group projects or working alone, Mia?”<br>- Mia: “____________________”",
+                options: [
+                    { text: "A. I prefer working alone.", isCorrect: true },
+                    { text: "B. I like to work outside.", isCorrect: false },
+                    { text: "C. I don’t mind going home alone.", isCorrect: false },
+                    { text: "D. I always work with my best friend.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Ava: \"Cậu thích làm dự án nhóm hơn hay thích làm việc một mình hơn, Mia?\" - Mia: \"Tớ thích làm việc một mình hơn.\"",
+                    options: "A. Tớ thích làm việc một mình hơn; B. Tớ thích làm việc ở ngoài trời; C. Tớ không phiền khi đi về nhà một mình; D. Tớ luôn làm việc với bạn thân.",
+                    reason: "Ava đưa ra câu hỏi lựa chọn sở thích bằng cấu trúc 'Do you prefer A or B?' (Cậu thích A hay B hơn?). Phản hồi chuẩn mực là chọn một trong hai phương án được đưa ra -> Chọn A: 'I prefer working alone'.",
+                    wrongReason: "B đổi sang chủ đề vị trí không gian; C đổi sang chủ đề đi về nhà; D không phản ánh đúng trực diện lựa chọn."
+                }
+            },
+            {
+                id: 8,
+                section: "Exercise 10: Best completes each of the following exchanges.",
+                question: "- Daniel: “I can’t believe we have a math test tomorrow! I haven’t studied at all.”<br>- Henry: “____________________”",
+                options: [
+                    { text: "A. Don’t worry, I’m sure you’ll do well.", isCorrect: true },
+                    { text: "B. Let’s go to the library this weekend.", isCorrect: false },
+                    { text: "C. What’s your favourite subject?", isCorrect: false },
+                    { text: "D. See you later!", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Daniel: \"Tớ không thể tin được là chúng ta có bài kiểm tra toán vào ngày mai! Tớ chưa học chút gì cả.\" - Henry: \"Đừng lo lắng quá, tớ chắc chắn cậu sẽ làm tốt thôi.\"",
+                    options: "A. Đừng lo, tớ chắc chắn bạn làm tốt; B. Hãy đến thư viện cuối tuần này; C. Môn học yêu thích của bạn là gì; D. Hẹn gặp lại bạn sau.",
+                    reason: "Daniel đang thể hiện sự lo lắng, hoảng hốt trước bài kiểm tra sát nút khi chưa kịp ôn tập. Lời động viên, trấn an tinh thần từ người bạn Henry 'Don’t worry, I’m sure you’ll do well' là câu trả lời nhân văn và phù hợp tâm lý nhất.",
+                    wrongReason: "B hẹn cuối tuần trong khi bài thi diễn ra ngày mai là quá muộn; C và D cắt đứt dòng hội thoại một cách thờ ơ."
+                }
+            },
+            {
+                id: 9,
+                section: "Exercise 10: Best completes each of the following exchanges.",
+                question: "- Jack: “I’m so tired! I stayed up late last night studying for my biology exam.”<br>- Michael: “____________________”",
+                options: [
+                    { text: "A. That’s a great idea!", isCorrect: false },
+                    { text: "B. Let’s play badminton after school.", isCorrect: false },
+                    { text: "C. I understand. Studying can be tiring.", isCorrect: true },
+                    { text: "D. What are you going to do after school?", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Jack: \"Tớ mệt mỏi quá! Đêm qua tớ phải thức khuya để học bài cho kỳ thi sinh học.\" - Michael: \"Tớ hiểu mà. Việc học hành đôi khi có thể rất mệt mỏi.\"",
+                    options: "A. Đó là một ý tưởng tuyệt vời!; B. Hãy chơi cầu lông sau giờ học đi; C. Tớ hiểu mà, học hành có thể rất mệt; D. Bạn sẽ làm gì sau giờ học?",
+                    reason: "Jack đang than thở thể hiện sự mệt mỏi thể xác do thức đêm ôn thi ('I'm so tired!'). Michael bày tỏ sự thấu cảm, đồng cảm sâu sắc bằng câu nói: 'I understand. Studying can be tiring' (Tớ hiểu mà...) giúp xoa dịu tâm trạng bạn.",
+                    wrongReason: "A và B rủ rê hoạt động thể chất mạnh khi đối phương vừa bảo đang kiệt sức mệt mỏi là bất hợp lý; D hỏi dồn dập thiếu thấu cảm."
+                }
+            },
+            {
+                id: 10,
+                section: "Exercise 10: Best completes each of the following exchanges.",
+                question: "- Mai: “____________________”<br>- Ann: That’s alright. You can keep it until you finish it.",
+                options: [
+                    { text: "A. What made you choose that book?", isCorrect: false },
+                    { text: "B. Oops, my mistake, Ann. I didn’t know this is your book.", isCorrect: false },
+                    { text: "C. Can I borrow another book, please?", isCorrect: false },
+                    { text: "D. I'm sorry for returning your book late, Ann. (Tương đương ngữ cảnh mượn giữ sách)", isCorrect: true }
+                ],
+                explanation: {
+                    translation: "Mai: \"Tớ xin lỗi vì trả sách cho cậu muộn nhé, Ann.\" - Ann: \"Không sao đâu mà. Cậu cứ giữ lấy nó đọc cho đến khi nào xong thì thôi.\"",
+                    options: "A. Điều gì khiến bạn chọn cuốn sách đó; B. Ôi lỗi của tớ, tớ không biết đây là sách của bạn; C. Tớ có thể mượn cuốn sách khác không; D. Điền một câu xin lỗi mượn/giữ sách lâu chưa trả.",
+                    reason: "Lời phản hồi của Ann chỉ ra hành động: 'You can keep it until you finish it' (Cậu có thể tiếp tục giữ lấy cuốn sách đó cho đến khi cậu đọc xong). Điều này chứng tỏ Mai đang phân vân xin lỗi vì giữ sách quá lâu hoặc xin gia hạn mượn sách. Phương án mang tính chất tương đồng ngữ cảnh này chính là lời giãi bày xin lỗi về việc giữ sách mượn lâu chưa hoàn trả.",
+                    wrongReason: "Các phương án A, B, C không dẫn đến việc đối phương cho phép giữ lại sách cho đến khi đọc xong."
+                }
+            },
+
+            // EXERCISE 11
+            {
+                id: 11,
+                section: "Exercise 11: Arrange the following sentences into a meaningful conversation.",
+                question: "Sắp xếp đoạn hội thoại ý nghĩa:<br>a. Brian: Yes, I do. I love listening to their songs in the morning.<br>b. Ally: Look! That little bird is so colorful. Do you often come here for birdwatching?<br>c. Ally: It sounds very relaxing. Maybe I should try it next weekend!",
+                options: [
+                    { text: "A. a - b - c", isCorrect: false },
+                    { text: "B. b - a – c", isCorrect: true },
+                    { text: "C. c - a – b", isCorrect: false },
+                    { text: "D. b - c - a", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Đoạn thoại hoàn chỉnh:<br>Ally (b): Nhìn kìa! Chú chim nhỏ đó thật nhiều màu sắc. Cậu có thường xuyên đến đây để ngắm chim không?<br>Brian (a): Có chứ, tớ có. Tớ rất thích nghe tiếng hót của chúng vào buổi sáng.<br>Ally (c): Nghe có vẻ rất thư giãn đấy. Có lẽ tớ nên thử trò này vào cuối tuần tới!",
+                    options: "Trình tự câu hỏi mở đầu và các câu phản hồi nối tiếp thông tin.",
+                    reason: "Đoạn văn bắt đầu bằng hành động gây chú ý thực tế và một câu hỏi Yes/No khơi mào câu chuyện: (b) 'Look!... Do you often come here for birdwatching?'. Tiếp theo, Brian trả lời trực diện câu hỏi Yes/No đó bằng câu (a) 'Yes, I do. I love listening...'. Cuối cùng, Ally đưa ra lời cảm thán nhận xét và dự định cá nhân: (c) 'It sounds very relaxing...'. Thứ tự đúng là b - a - c.",
+                    wrongReason: "Các phương án khác đưa câu trả lời lên trước câu hỏi hoặc đặt câu kết luận (c) vào vị trí không hợp logic mạch đàm thoại."
+                }
+            },
+            {
+                id: 12,
+                section: "Exercise 11: Arrange the following sentences into a meaningful conversation.",
+                question: "Sắp xếp đoạn hội thoại ý nghĩa:<br>a. Brian: Oh, that sounds interesting. What did you do on the tour?<br>b. Ally: We learned about the local flora and helped clean the campsite.<br>c. Ally: I went on an eco-tour yesterday. It was great!",
+                options: [
+                    { text: "A. a - b – c", isCorrect: false },
+                    { text: "B. c - b – a", isCorrect: false },
+                    { text: "C. c - a – b", isCorrect: true },
+                    { text: "D. b - c - a", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Đoạn thoại hoàn chỉnh:<br>Ally (c): Hôm qua tớ vừa tham gia một chuyến du lịch sinh thái đấy. Nó tuyệt lắm!<br>Brian (a): Ồ, nghe thú vị thế. Cậu đã làm những gì trong chuyến đi đó?<br>Ally (b): Chúng tớ đã tìm hiểu về hệ thực vật địa phương và giúp dọn dẹp sạch sẽ khu cắm trại.",
+                    options: "Bám sát từ khóa móc nối thông tin hỏi đáp giữa hai người hội thoại.",
+                    reason: "Ally mở màn bằng việc thông báo một sự kiện trải nghiệm mới: (c) 'I went on an eco-tour yesterday...'. Brian nắm bắt thông tin và đặt câu hỏi khai thác chi tiết sâu hơn bằng từ để hỏi What: (a) 'Oh, that sounds interesting. What did you do on the tour?'. Cuối cùng Ally liệt kê chi tiết hành động đáp lại câu hỏi của Brian: (b) 'We learned about...'. Thứ tự mạch lạc duy nhất là c - a - b.",
+                    wrongReason: "Các trật tự khác đảo câu trả lời (b) lên trước câu hỏi của Brian, vi phạm cấu trúc đối thoại tự nhiên."
+                }
+            },
+            {
+                id: 13,
+                section: "Exercise 11: Arrange the following sentences into a meaningful conversation.",
+                question: "Sắp xếp đoạn hội thoại ý nghĩa:<br>a. Ally: No, we just went snorkeling, but we were very careful not to touch anything.<br>b. Ally: My favorite place to swim is near the coral reef.<br>c. Brian: Wow, that must have been unforgettable. Was it an eco-tour?<br>d. Ally: Yes, the seabed is full of life. We saw a big sea turtle yesterday.<br>e. Brian: That sounds amazing! Are there many colorful fish there?",
+                options: [
+                    { text: "A. e - d - c - a – b", isCorrect: false },
+                    { text: "B. b - e - d - c – a", isCorrect: true },
+                    { text: "C. c - b - e - d – a", isCorrect: false },
+                    { text: "D. b - c - d - e - a", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Đoạn thoại hoàn chỉnh:<br>Ally (b): Địa điểm bơi lội yêu thích nhất của tớ là ở gần rặng san hô.<br>Brian (e): Nghe tuyệt vời thật đấy! Ở đó có nhiều cá sắc màu không cậu?<br>Ally (d): Có chứ, đáy biển tràn ngập sự sống luôn. Hôm qua tụi tớ còn thấy một cụ rùa biển lớn nữa.<br>Brian (c): Oa, đó chắc chắn phải là một kỷ niệm không thể nào quên. Đó có phải là một chuyến du lịch sinh thái không vậy?<br>Ally (a): Không đâu, tụi tớ chỉ đi lặn ống thở thôi, nhưng tụi tớ rất cẩn thận không chạm vào bất cứ thứ gì.",
+                    options: "Phân tích liên kết đại từ, từ chỉ nơi chốn 'there' và chuỗi câu hỏi phản hồi nghi vấn.",
+                    reason: "1. Câu xuất phát lý tưởng giới thiệu địa điểm chủ đề là (b) 'My favorite place to swim is near the coral reef'.<br>2. Brian phản hồi về địa điểm đó bằng từ chỉ vị trí 'there': (e) 'That sounds amazing! Are there many colorful fish there?'.<br>3. Ally trả lời từ 'Are there' bằng cụm 'Yes...' và bổ sung việc thấy rùa biển: (d) 'Yes, the seabed is full of life. We saw...'.<br>4. Brian cảm thán khen ngợi và đặt câu hỏi nghi vấn lựa chọn loại hình: (c) 'Wow... Was it an eco-tour?'.<br>5. Ally trả lời cho câu hỏi nghi vấn đó bằng từ phủ định: (a) 'No, we just went snorkeling...'. Trật tự hoàn hảo logic là b - e - d - c - a.",
+                    wrongReason: "Các phương án khác xếp câu trả lời phủ định 'No' (a) lên trước khi có câu hỏi nghi vấn thích hợp, hoặc làm đứt gãy sợi dây liên kết từ chỉ nơi chốn 'there' với cụm từ 'coral reef'."
+                }
+            }
+        ];
+
+        // --- KHỞI TẠO VÀ SINH GIAO DIỆN TỰ ĐỘNG ---
+        const container = document.getElementById('quiz-container');
+        let currentSectionName = "";
+
+        // Hàm xáo trộn đáp án ngẫu nhiên (Shuffle) nâng cao chất lượng tư duy độc lập
+        function shuffleOptions(options) {
+            let shuffled = [...options];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        quizData.forEach((q, index) => {
+            if (q.section !== currentSectionName) {
+                currentSectionName = q.section;
+                const secTitle = document.createElement('div');
+                secTitle.className = 'section-title';
+                secTitle.innerText = currentSectionName;
+                container.appendChild(secTitle);
+            }
+
+            const card = document.createElement('div');
+            card.className = 'quiz-card';
+            card.id = `card-${q.id}`;
+
+            const shuffledOpts = shuffleOptions(q.options);
+            let optionsHtml = '';
+            shuffledOpts.forEach(opt => {
+                optionsHtml += `<button class="option-btn" data-correct="${opt.isCorrect}" onclick="selectOption(this, ${q.id})">${opt.text}</button>`;
+            });
+
+            card.innerHTML = `
+                <div class="question-text"><strong>Câu ${index + 1}:</strong><br>${q.question}</div>
+                <div class="options-container">${optionsHtml}</div>
+                <div class="explanation-box" id="exp-${q.id}">
+                    <div class="exp-section"><div class="exp-title">🌟 Dịch nghĩa tình huống hội thoại:</div><div class="exp-text">${q.explanation.translation}</div></div>
+                    <div class="exp-section"><div class="exp-title">💎 Phân tích chi tiết ngữ cảnh:</div><div class="exp-text">${q.explanation.options}</div></div>
+                    <div class="exp-section"><div class="exp-title">✅ Tại sao chọn đáp án này?</div><div class="exp-text exp-highlight">${q.explanation.reason}</div></div>
+                    <div class="exp-section"><div class="exp-title">❌ Tại sao các câu khác chưa phù hợp?</div><div class="exp-text">${q.explanation.wrongReason}</div></div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // --- XỬ LÝ SỰ KIỆN KHI BẤM CHỌN ĐÁP ÁN TỪNG CÂU ---
+        function selectOption(btn, qId) {
+            const card = document.getElementById(`card-${qId}`);
+            if (card.getAttribute('data-answered') === 'true') return;
+
+            const buttons = card.querySelectorAll('.option-btn');
+            const isCorrect = btn.getAttribute('data-correct') === 'true';
+
+            buttons.forEach(b => {
+                b.classList.add('disabled');
+                if (b.getAttribute('data-correct') === 'true') {
+                    b.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                btn.classList.add('correct');
+                playSound('correct');
+                createConfetti();
+            } else {
+                btn.classList.add('wrong');
+                card.classList.add('shake');
+                playSound('wrong');
+                setTimeout(() => card.classList.remove('shake'), 400);
+            }
+
+            document.getElementById(`exp-${qId}`).classList.add('active');
+            card.setAttribute('data-answered', 'true');
+            card.setAttribute('data-score', isCorrect ? '1' : '0');
+        }
+
+        // --- HỆ THỐNG CHẤM ĐIỂM VÀ HIỂN THỊ KẾT LUẬN ---
+        function gradeEntireQuiz() {
+            let totalQuestions = quizData.length;
+            let correctCount = 0;
+            let unansweredCount = 0;
+
+            quizData.forEach(q => {
+                const card = document.getElementById(`card-${q.id}`);
+                const score = card.getAttribute('data-score');
+                if (score === '1') correctCount++;
+                if (!card.getAttribute('data-answered')) unansweredCount++;
+            });
+
+            const percentage = (correctCount / totalQuestions) * 100;
+            document.getElementById('score-text').innerText = `${correctCount}/${totalQuestions}`;
+
+            let comment = "";
+            if (percentage < 50) {
+                comment = "Điểm số lần này chưa cao lắm, con cố gắng đọc thật kỹ phần phân tích giải thích đáp án chi tiết và bấm luyện tập lại nha. Cô tin con sẽ làm tốt hơn ở lần kế tiếp! ❤️";
+            } else if (percentage <= 80) {
+                comment = "Chúc mừng con! Con đã nắm bắt khá tốt các tình huống đàm thoại giao tiếp và liên kết logic câu. Hãy rà soát lại câu sai để đạt điểm tuyệt đối nhé! ✨";
+            } else {
+                comment = "Quá xuất sắc! Con có tư duy sắp xếp đoạn hội thoại và phản xạ giao tiếp Anh ngữ cực kỳ thông minh. Giữ vững phong độ này con yêu nhé! 🎉🏆";
+            }
+
+            if (unansweredCount > 0) {
+                comment += `\n(Lưu ý con yêu: Hiện tại vẫn còn ${unansweredCount} câu hỏi con đang bỏ sót chưa bấm chọn câu trả lời đâu nhé!)`;
+            }
+
+            document.getElementById('comment-text').innerText = comment;
+            document.getElementById('result-modal').style.display = 'flex';
+
+            if (percentage >= 60) {
+                createConfetti();
+                setTimeout(createConfetti, 300);
+            }
+        }
+
+        function closeResultModal() {
+            document.getElementById('result-modal').style.display = 'none';
+        }
+
+        function CollegeRandom(min, max) { return Math.random() * (max - min) + min; }
+
+        // --- HIỆU ỨNG PHÁO GIẤY CONFETTI CANVAS ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let confettis = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                confettis.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: CollegeRandom(6, 12),
+                    d: Math.random() * canvas.height,
+                    color: `hsl(${Math.random() * 360}, 100%, 60%)`,
+                    tilt: CollegeRandom(-10, 10),
+                    tiltAngleIncremental: CollegeRandom(-0.04, 0.04),
+                    tiltAngle: 0
+                });
+            }
+        }
+
+        function drawConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettis.forEach((c, index) => {
+                c.tiltAngle += c.tiltAngleIncremental;
+                c.y += (Math.cos(c.d) + 3 + c.r / 2) / 2;
+                c.x += Math.sin(c.tiltAngle);
+                c.tilt = Math.sin(c.tiltAngle - index / 3) * 15;
+
+                if (c.y > canvas.height) {
+                    confettis.splice(index, 1);
+                    return;
+                }
+
+                ctx.beginPath();
+                ctx.lineWidth = c.r / 2;
+                ctx.strokeStyle = c.color;
+                ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+                ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
+                ctx.stroke();
+            });
+            requestAnimationFrame(drawConfetti);
+        }
+        drawConfetti();
+    </script>
+</body>
+</html>
